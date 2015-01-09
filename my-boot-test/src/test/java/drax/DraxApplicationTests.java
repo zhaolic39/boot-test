@@ -23,6 +23,15 @@ public class DraxApplicationTests {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
+    @Test
+    public void testCreate() {
+        DxApp app = new DxApp();
+        app.setName("Boot Test");
+        dxAppDao.save(app);
+        
+        app = dxAppDao.findByName("Boot Test");
+        Assert.assertNotNull(app.getId());
+    }
     
     @Test
     public void testFindByPropety() {

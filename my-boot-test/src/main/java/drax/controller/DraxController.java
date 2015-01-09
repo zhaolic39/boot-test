@@ -1,29 +1,42 @@
 package drax.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
 import drax.dao.DxAppDao;
 import drax.entity.DxApp;
 
-@Controller
+@RestController
 public class DraxController {
     
     @Autowired
     private DxAppDao dxAppDao;
     
-    @RequestMapping("/apps")
-    @ResponseBody
+    @RequestMapping(value = "/apps", method = RequestMethod.GET)
     public Iterable<DxApp> getApps(){
         return dxAppDao.findAll();
     }
     
-    @RequestMapping("/apps/{id}")
-    @ResponseBody
+    @RequestMapping(value = "/apps/{id}", method = RequestMethod.GET)
     public DxApp getAppsById(@PathVariable String id){
         return dxAppDao.findOne(id);
+    }
+    
+    @ResponseStatus(HttpStatus.CREATED)  
+    @RequestMapping(value = "/apps", method = RequestMethod.POST)
+    public DxApp createApp(@RequestBody DxApp app){
+        return dxAppDao.save(app);
+    }
+    
+    @ResponseStatus(HttpStatus.NO_CONTENT)  
+    @RequestMapping(value = "/apps/{id}", method = RequestMethod.DELETE)
+    public void deleteApp(@PathVariable String id){
+        dxAppDao.delete(id);
     }
 }
