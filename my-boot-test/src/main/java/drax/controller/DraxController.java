@@ -39,4 +39,13 @@ public class DraxController {
     public void deleteApp(@PathVariable String id){
         dxAppDao.delete(id);
     }
+    
+    @ResponseStatus(HttpStatus.NO_CONTENT)  
+    @RequestMapping(value = "/apps/nocontent", method = RequestMethod.DELETE)
+    public DxApp testNoContent(){
+        DxApp app = new DxApp();
+        app.setName("test");
+        app.setId("test_id");
+        return app;
+    }
 }

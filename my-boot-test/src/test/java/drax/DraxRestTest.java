@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class DraxRestTest {
         this.mvc = MockMvcBuilders.webAppContextSetup(this.context).build();
     }
     
+    @Ignore
     @Test
     public void testGet() throws Exception {
         mvc.perform(get("/apps/2c9086f048442f4401484443aa510004"))
@@ -48,6 +50,7 @@ public class DraxRestTest {
                 .andReturn();
     }
     
+    @Ignore
     @Test
     public void testCreateAndDelete() throws Exception {
         DxApp app = new DxApp();
@@ -64,5 +67,13 @@ public class DraxRestTest {
             .andDo(MockMvcResultHandlers.print())
             .andExpect(status().isNoContent())
             .andReturn();
+    }
+    
+    @Test
+    public void testNoContent() throws Exception {
+        mvc.perform(delete("/apps/nocontent"))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isNoContent())
+                .andReturn();
     }
 }
